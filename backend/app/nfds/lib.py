@@ -33,13 +33,14 @@ def format_fire_msg(defail: dict) -> str:
         진행: 출동 / 결과: -
     """
 
-    fire_msg = f"""
-    {defail['cntrNm']} ({defail['overDate']})
-    {defail['addr']}
-    사망: {defail['dethNum']} / 부상: {defail['injuNum']}
-    재산피해(천원): {defail['expMount']}
-    진행: {defail['progressNm']} / 결과: {defail['frfalTypeCd']}
-    """
+    fire_msg = (
+        f"\n"
+        f"{defail['cntrNm']} ({defail['overDate']})\n"
+        f"{defail['addr']}\n"
+        f"사망: {defail['dethNum']} / 부상: {defail['injuNum']}\n"
+        f"재산피해(천원): {defail['expMount']}\n"
+        f"진행: {defail['progressNm']} / 결과: {defail['frfalTypeCd']}"
+    )
     return fire_msg
 
 
@@ -89,7 +90,7 @@ def scrape_nfds(line: str) -> str:
     if len(fire_msg_lst) == 0:
         return "선택한 라인의 화재발생정보가 없습니다."
 
-    res_msg = f"{line} 화재현황입니다.({len(fire_msg_lst)}건)\n" + "".join(
+    res_msg = f"{line} 화재현황입니다. ({len(fire_msg_lst)}건)" + "".join(
         f for f in fire_msg_lst
     )
     return res_msg
