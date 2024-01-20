@@ -37,7 +37,7 @@ jobs:
               docker rm news-tool
             fi
 
-            cd /home/ubuntu/news-tool
+            cd /home/ubuntu
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/news-tool:latest
             docker run -d --name news-tool -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/news-tool:latest
             echo "Deployed news-tool"
