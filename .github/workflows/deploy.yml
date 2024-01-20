@@ -32,9 +32,12 @@ jobs:
           username: ${{ secrets.EC2_SSH_USER }}
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
+            if docker ps -a | grep -q news-tool; then
+              docker stop news-tool
+              docker rm news-tool
+            fi
+
             cd /home/ubuntu/news-tool
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/news-tool:latest
-            docker stop news-tool || true
-            docker rm news-tool || true
             docker run -d --name news-tool -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/news-tool:latest
             echo "Deployed news-tool"
