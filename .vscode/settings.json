@@ -1,0 +1,30 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "isort.args": ["--profile", "black"],
+
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+
+  "javascript.validate.enable": false,
+  "typescript.validate.enable": true,
+
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+
+  "stylelint.validate": ["css", "svelte"],
+  "css.validate": false,
+  "scss.validate": false
+}

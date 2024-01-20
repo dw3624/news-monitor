@@ -1,9 +1,9 @@
 <script>
-	import ArticleCardList from '../../components/article-card-list.svelte'
-	import ArticleTextarea from '../../components/article-textarea.svelte'
-	import DateBroadcastPicker from '../../components/date-broadcast-picker.svelte'
-	import {getArticleList} from '../../utils/api'
-	import {testArticles} from '../../utils/test-data.ts'
+	import ArticleCardList from '../components/article-card-list.svelte'
+	import ArticleTextarea from '../components/article-textarea.svelte'
+	import DateBroadcastPicker from '../components/date-broadcast-picker.svelte'
+	import {getArticleList} from '../utils/api'
+	import {testArticles} from '../utils/test-data.ts'
 
 	let selectedDate = new Date().toISOString().slice(0, 10);
 	const handleDateChange = (event)=> {
