@@ -1,6 +1,6 @@
 import os
 
-from lib.get_articles import *
+from .lib import *
 
 news = "tv_chosun"
 date = "20230818"

@@ -4,12 +4,17 @@
 </script>
 
 <section>
-	<div class="section-header">
-		<span><b>{articles ? articles.length : 0}</b> 건</span>
+	<div class="header">
+		{#if articles.news === 'jtbc'}
+			<span class="warning">※ JTBC는 기사 제목이 잘리는 경우가 있습니다.</span>
+		{:else}
+			<span/>
+		{/if}
+		<span><b>{articles ? articles.length : 0}</b>건</span>
 	</div>
-	<div class="section-body">
+	<div class="content">
 		{#if articles}
-			{#each articles.data as article, i}
+			{#each articles.data as article}
 				<ArticleCard
 					title={article.title}
 					url={article.url}
@@ -27,35 +32,32 @@
 
 <style>
 	section {
-		flex: 1;
-		overflow: auto;
 		display: flex;
 		flex-direction: column;
+		overflow: auto;
 	}
-	div.section-header {
+	.header {
 		display: flex;
-		justify-content: flex-end;
-		margin-bottom: 6px;
+		justify-content: space-between;
+		margin-bottom: 0.5rem;
 	}
 	span {
-		display: block;
-		font-size: 14px;
-		padding: 1px 4px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: var(--text-sm);
 	}
-	div.section-body {
-		flex: 1;
+	.warning {
+		font-size: var(--text-xs);
+		font-weight: 600;
+		color: hsl(var(--destructive));
+	}
+	.content {
 		display: flex;
-		padding: 24px 0;
+		flex: 1;
 		flex-direction: column;
-		border: 1px solid var(--light-gray);
 		overflow: auto;
-	}
-	@media (max-width: 480px) {
-		section {
-			flex: 3;
-		}
-		div.section-body {
-			padding: 1rem 0;
-		}
+		border: 1px solid hsl(var(--border));
+		border-radius: var(--radius);
 	}
 </style>

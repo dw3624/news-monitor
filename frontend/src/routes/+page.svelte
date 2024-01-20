@@ -1,45 +1,40 @@
 <script>
-	import { getArticleList } from '../utils/api';
-	import { testArticles } from '../utils/test-data';
-	import ArticleCardList from '../components/article-card-list.svelte';
-	import ArticleTextarea from '../components/article-textarea.svelte';
-	import DateBroadcastPicker from '../components/date-broadcast-picker.svelte';
+	import ArticleCardList from '../components/article-card-list.svelte'
+	import ArticleTextarea from '../components/article-textarea.svelte'
+	import DateBroadcastPicker from '../components/date-broadcast-picker.svelte'
+	import {getArticleList} from '../utils/api'
+	import {testArticles} from '../utils/test-data.ts'
 
 	let selectedDate = new Date().toISOString().slice(0, 10);
-	function handleDateChange(event) {
+	const handleDateChange = (event)=> {
 		selectedDate = event.target.value;
 	}
 
 	let selectedNews = '';
 	let articles = testArticles;
-	async function handleNewsChange(event) {
+	const handleNewsChange = async (event) => {
 		selectedNews = event.target.value;
 		const formattedDate = selectedDate.split('-').join('');
 		articles = await getArticleList(selectedNews, formattedDate);
 	}
-	function generateKeywordText(keyword1, keyword2) {
-		if (keyword1 && keyword2) {
-			return `(${keyword1}, ${keyword2})`;
-		} else if (keyword1) {
-			return `(${keyword1})`;
-		} else if (keyword2) {
-			return `(${keyword2})`;
-		} else {
-			return '';
-		}
+
+	const generateKeywordText = (typeRef, keyword1, keyword2) => {
+    const keywordList = [typeRef, keyword1, keyword2].filter(Boolean)
+    const keywordText = keywordList.join(', ')
+    if (keywordText) return `(${keywordText})`
+    return keywordText
 	}
-	function generateText(articles) {
+
+	const generateText=(articles) => {
 		let resText = '';
-		console.log(articles);
 		if (articles) {
 			articles.data.map((article) => {
-				let typeRef = article.typeRef ? '[참고]' : '';
+				let typeRef = article.typeRef ? '참고' : '';
 				if (article.type !== 'rm') {
 					resText +=
 						article.type +
-						typeRef +
 						article.title +
-						generateKeywordText(article.keyword1, article.keyword2) +
+						generateKeywordText(typeRef, article.keyword1, article.keyword2) +
 						'\n';
 				}
 			});
@@ -50,24 +45,34 @@
 </script>
 
 <DateBroadcastPicker {selectedNews} {handleNewsChange} {selectedDate} {handleDateChange} />
-
-<main>
+<div class="container">
 	<ArticleCardList bind:articles />
 	<ArticleTextarea {textareaValue} />
-</main>
+</div>
 
 <style>
-	main {
+	.container {
+    display: grid;
 		flex: 1;
-		display: flex;
-		gap: 24px;
-		max-height: 100%;
+    grid-template-rows: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+    height: 100%;
+		max-height: calc(100vh - 6rem);
+    padding-bottom: 1.5rem;
 		overflow: auto;
 	}
-	@media (max-width: 768px) {
-		main {
-			flex-direction: column;
+	@media screen and (width < 768px) {
+		.container {
+			grid-template-rows: repeat(2, 1fr);;
+      grid-template-columns: 1fr;
 			gap: 1rem;
 		}
 	}
+	@media screen and (width < 480px) {
+		.container {
+			max-height: calc(100vh - 8rem);
+		}
+	}
+
 </style>

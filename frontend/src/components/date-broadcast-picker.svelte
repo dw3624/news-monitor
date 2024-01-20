@@ -1,13 +1,12 @@
 <script>
-	import { NEWS_LIST } from '../utils/constant';
-
+	import { NEWS_LIST } from '../utils/const'
 	export let selectedNews;
 	export let handleNewsChange;
 	export let selectedDate;
 	export let handleDateChange;
 </script>
 
-<div class="button-container">
+<div class="container">
 	<div class="button-list">
 		{#each NEWS_LIST as news}
 			<button
@@ -25,41 +24,44 @@
 </div>
 
 <style>
-	.button-container {
+	.container {
 		display: flex;
-		padding: 24px 0;
-		justify-content: space-between;
 		align-items: center;
 		align-self: stretch;
-	}
-	@media (max-width: 768px) {
-		.button-container {
-			flex-direction: column-reverse;
-			gap: 1rem;
-			padding: 0;
-		}
+		justify-content: space-between;
+		padding: 0.5rem 0;
 	}
 	.button-list {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
+		gap: 0.5rem;
 	}
 	button {
-		padding: 8px 16px;
-		color: var(--dark-gray);
-		background-color: #fff;
-		border: 1px solid var(--light-gray);
-		font-size: 14px;
+		padding: 0.25rem 0.75rem;
+		font-size: var(--text-sm);
 		font-weight: 700;
+		cursor: pointer;
+		background-color: transparent;
+		border: 1px solid hsl(var(--border));
+		transition: .2s;
+
 	}
-	@media (max-width: 480px) {
+	button:hover {
+		color: hsl(var(--accent-foreground));
+		background-color: hsl(var(--accent));
+	}
+
+	@media (width < 480px) {
+		.button-list {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+		}
 		button {
-			padding: 4px 12px;
+			padding: 0.25rem 0.5rem;
+			font-size: var(--text-sm);
 		}
 	}
 	.button-active {
-		color: var(--light-gray);
-		border: 1px solid var(--black);
-		background: var(--black);
+		color: hsl(var(--primary-foreground));
+		background: hsl(var(--primary));
 	}
 </style>

@@ -1,12 +1,11 @@
-from datetime import datetime
-
-from fastapi import FastAPI, HTTPException
+from app.news_monitor.routers import router as news_monitor_router
+from app.nfds.routers import router as nfds_router
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from lib.get_articles import get_article_list
 
 app = FastAPI()
 
-origins = ["http://localhost:5173"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,14 +15,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-today = datetime.now().strftime("%Y%m%d")
-
-@app.get("/articles/{news}")
-async def get_articles(news: str, date:str = today):
-    try:
-        article_list = get_article_list(news=news, date=date)
-        res_dict = {"length": len(article_list), "date": date, "data": article_list}
-        return res_dict
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+app.include_router(nfds_router)
+app.include_router(news_monitor_router)
