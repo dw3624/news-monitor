@@ -91,5 +91,4 @@ def scrape_nfds(line: str) -> str:
 
     res_msg = f"{line} 화재현황입니다. ({len(fire_msg_lst)}건)\n\n"
     res_msg += "\n\n".join(fire_msg_lst)
-    print(res_msg)
     return res_msg
