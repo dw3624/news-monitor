@@ -1,71 +1,70 @@
 <script>
 	export let textareaValue;
 
-	function handleCopy() {
-		navigator.clipboard.writeText(textareaValue);
+	const handleCopy = () => {
+		navigator.clipboard.writeText(textareaValue)
+		.then(() => {
+			console.log('Text copied successfully');
+		})
+		.catch((error) => {
+				console.error('Unable to copy text', error);
+		});
 	}
 </script>
 
 <section>
-	<div class="section-header">
+	<div class="header">
 		<span />
 		<button class="button-copy" on:click={handleCopy}>복사</button>
 	</div>
-	<div class="section-body">
+	<div class="content">
 		<textarea value={textareaValue} spellcheck="false" />
 	</div>
 </section>
 
 <style>
 	section {
-		flex: 1;
-		overflow: auto;
 		display: flex;
 		flex-direction: column;
+		overflow: auto;
 	}
-	div.section-header {
+	.header {
 		display: flex;
 		justify-content: flex-end;
-		margin-bottom: 6px;
+		margin-bottom: 0.5rem;
 	}
-	div.section-body {
-		flex: 1;
+	.content {
 		display: flex;
-		padding: 24px 0;
+		flex: 1;
 		flex-direction: column;
-		border: 1px solid var(--light-gray);
 		overflow: auto;
+		border: 1px solid hsl(var(--border));
+		border-radius: var(--radius);
 	}
 	textarea {
 		height: 100%;
-		resize: none;
+		padding: 1rem 1.5rem;
+		font-size: var(--text-md);
 		line-height: 1.5;
-		font-size: 16px;
-		padding: 0 24px;
+		resize: none;
 		border: none;
 		outline: none;
 	}
 	@media (max-width: 480px) {
-		section {
-			flex: 2;
-		}
-		div.section-body {
-			padding: 1rem 0;
-		}
 		textarea {
-			padding: 0 1rem;
-			font-size: 14px;
+			font-size: var(--text-sm);
 		}
 	}
 	.button-copy {
-		color: var(--black);
-		background-color: #fff;
+		font-size: var(--text-sm);
+		font-weight: 600;
+		cursor:pointer;
+		background-color: transparent;
 		border: none;
-		font-size: 14px;
-		font-weight: 700;
+		border-radius: var(--radius);
+		transition: .2s;
 	}
 	.button-copy:hover {
 		text-decoration: underline;
-		transition: 0.2s;
 	}
 </style>
