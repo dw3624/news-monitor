@@ -89,7 +89,7 @@ def scrape_nfds(line: str) -> str:
     if len(fire_msg_lst) == 0:
         return "선택한 라인의 화재발생정보가 없습니다."
 
-    res_msg = f"{line} 화재현황입니다. ({len(fire_msg_lst)}건)\n" + "\n".join(
-        f for f in fire_msg_lst
-    )
+    res_msg = f"{line} 화재현황입니다. ({len(fire_msg_lst)}건)\n\n"
+    res_msg += "\n\n".join(fire_msg_lst)
+    print(res_msg)
     return res_msg
