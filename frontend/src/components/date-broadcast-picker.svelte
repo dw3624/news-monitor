@@ -31,10 +31,12 @@
 		justify-content: space-between;
 		padding: 0.5rem 0;
 	}
+
 	.button-list {
 		display: flex;
 		gap: 0.5rem;
 	}
+
 	button {
 		padding: 0.25rem 0.75rem;
 		font-size: var(--text-sm);
@@ -45,9 +47,20 @@
 		transition: .2s;
 
 	}
+
+	.button-active {
+		color: hsl(var(--primary-foreground));
+		background: hsl(var(--primary));
+	}
+
 	button:hover {
 		color: hsl(var(--accent-foreground));
 		background-color: hsl(var(--accent));
+	}
+
+	.button-active:hover {
+		color: hsl(var(--primary-foreground));
+		background-color: hsl(var(--primary) / 80%);
 	}
 
 	@media (width < 480px) {
@@ -55,13 +68,10 @@
 			display: grid;
 			grid-template-columns: repeat(3, 1fr);
 		}
+
 		button {
 			padding: 0.25rem 0.5rem;
 			font-size: var(--text-sm);
 		}
-	}
-	.button-active {
-		color: hsl(var(--primary-foreground));
-		background: hsl(var(--primary));
 	}
 </style>

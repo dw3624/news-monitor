@@ -28,11 +28,13 @@
 		flex-direction: column;
 		overflow: auto;
 	}
+
 	.header {
 		display: flex;
 		justify-content: flex-end;
 		margin-bottom: 0.5rem;
 	}
+
 	.content {
 		display: flex;
 		flex: 1;
@@ -41,6 +43,7 @@
 		border: 1px solid hsl(var(--border));
 		border-radius: var(--radius);
 	}
+
 	textarea {
 		height: 100%;
 		padding: 1rem 1.5rem;
@@ -50,11 +53,13 @@
 		border: none;
 		outline: none;
 	}
-	@media (max-width: 480px) {
+
+	@media (width <= 480px) {
 		textarea {
 			font-size: var(--text-sm);
 		}
 	}
+
 	.button-copy {
 		font-size: var(--text-sm);
 		font-weight: 600;
@@ -64,6 +69,7 @@
 		border-radius: var(--radius);
 		transition: .2s;
 	}
+
 	.button-copy:hover {
 		text-decoration: underline;
 	}

@@ -64,10 +64,12 @@
 	h3 {
 		font-size: var(--text-md);
 	}
+
 	h3 > a {
 		color: var(--black);
 		text-decoration: none;
 	}
+
 	h3 > a:hover {
 		text-decoration: underline;
 	}
@@ -77,9 +79,11 @@
 		flex-wrap: wrap;
 		gap: 0.5rem;
 	}
+
 	label input[type='radio'] {
 		display: none;
 	}
+
 	label input[type='radio'] + span {
 		display: inline-flex;
 		padding: 0.25rem 0.75rem;
@@ -88,26 +92,9 @@
 		color: hsl(var(--muted-foreground));
 		cursor: pointer;
 		background-color: transparent;
-		border: 1px solid hsl(var(--muted-foreground) / .5);
-	}
-	label input[type='radio']:checked + span {
-		color: hsl(var(--primary-foreground));
-		background-color: hsl(var(--primary));
-		border: 1px solid transparent;
+		border: 1px solid hsl(var(--muted-foreground) / 50%);
 	}
 
-	label.rm input[type='radio'] + span {
-		color: hsl(var(--red));
-		border: 1px solid hsl(var(--red));
-	}
-	label.rm input[type='radio']:checked + span {
-		color: hsl(var(--red-foreground));
-		background-color: hsl(var(--red));
-	}
-
-	label input[type='checkbox'] {
-		display: none;
-	}
 	label input[type='checkbox'] + span {
 		display: inline-flex;
 		padding: 0.25rem 0.75rem;
@@ -119,9 +106,30 @@
 		background-color: transparent;
 		border: 1px solid hsl(var(--blue));
 	}
+
 	label input[type='checkbox']:checked + span {
 		color: hsl(var(--blue-foreground));
 		background-color: hsl(var(--blue));
+	}
+
+	label input[type='radio']:checked + span {
+		color: hsl(var(--primary-foreground));
+		background-color: hsl(var(--primary));
+		border: 1px solid transparent;
+	}
+
+	label.rm input[type='radio'] + span {
+		color: hsl(var(--red));
+		border: 1px solid hsl(var(--red));
+	}
+
+	label.rm input[type='radio']:checked + span {
+		color: hsl(var(--red-foreground));
+		background-color: hsl(var(--red));
+	}
+
+	label input[type='checkbox'] {
+		display: none;
 	}
 
 	.keyword {
@@ -130,12 +138,13 @@
 		gap: 1rem;
 		margin-top: 0.5rem;
 	}
+
 	.keyword > input {
 		width: 7.5rem;
 		height: 1.5rem;
 		color: hsl(var(--muted-foreground));
 		border: none;
-		border-bottom: 1px solid hsl(var(--muted-foreground) / .5);
+		border-bottom: 1px solid hsl(var(--muted-foreground) / 50%);
 		outline: none;
 	}
 </style>

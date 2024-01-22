@@ -1,9 +1,11 @@
 <script>
 	import ArticleCard from './article-card.svelte';
 	export let articles;
+	export let loading
 </script>
 
 <section>
+	{#if loading}<div>loading</div>{/if}
 	<div class="header">
 		{#if articles.news === 'jtbc'}
 			<span class="warning">※ JTBC는 기사 제목이 잘리는 경우가 있습니다.</span>
@@ -26,6 +28,8 @@
 					bind:keyword2={article.keyword2}
 				/>
 			{/each}
+			{:else}
+			no data
 		{/if}
 	</div>
 </section>
@@ -36,22 +40,26 @@
 		flex-direction: column;
 		overflow: auto;
 	}
+
 	.header {
 		display: flex;
 		justify-content: space-between;
 		margin-bottom: 0.5rem;
 	}
+
 	span {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		font-size: var(--text-sm);
 	}
+
 	.warning {
 		font-size: var(--text-xs);
 		font-weight: 600;
 		color: hsl(var(--destructive));
 	}
+
 	.content {
 		display: flex;
 		flex: 1;

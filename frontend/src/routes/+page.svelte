@@ -5,6 +5,8 @@
 	import {getArticleList} from '../utils/api'
 	import {testArticles} from '../utils/test-data.ts'
 
+	let loading = false
+
 	let selectedDate = new Date().toISOString().slice(0, 10);
 	const handleDateChange = (event)=> {
 		selectedDate = event.target.value;
@@ -19,10 +21,10 @@
 	}
 
 	const generateKeywordText = (typeRef, keyword1, keyword2) => {
-    const keywordList = [typeRef, keyword1, keyword2].filter(Boolean)
-    const keywordText = keywordList.join(', ')
-    if (keywordText) return `(${keywordText})`
-    return keywordText
+		const keywordList = [typeRef, keyword1, keyword2].filter(Boolean)
+		const keywordText = keywordList.join(', ')
+		if (keywordText) return `(${keywordText})`
+		return keywordText
 	}
 
 	const generateText=(articles) => {
@@ -46,33 +48,34 @@
 
 <DateBroadcastPicker {selectedNews} {handleNewsChange} {selectedDate} {handleDateChange} />
 <div class="container">
-	<ArticleCardList bind:articles />
+	<ArticleCardList bind:articles bind:loading/>
 	<ArticleTextarea {textareaValue} />
 </div>
 
 <style>
 	.container {
-    display: grid;
+		display: grid;
 		flex: 1;
-    grid-template-rows: 1fr;
-    grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: 1fr;
+		grid-template-columns: repeat(2, 1fr);
 		gap: 1.5rem;
-    height: 100%;
+		height: 100%;
 		max-height: calc(100vh - 6rem);
-    padding-bottom: 1.5rem;
+		padding-bottom: 1.5rem;
 		overflow: auto;
 	}
+
 	@media screen and (width < 768px) {
 		.container {
 			grid-template-rows: repeat(2, 1fr);;
-      grid-template-columns: 1fr;
+			grid-template-columns: 1fr;
 			gap: 1rem;
 		}
 	}
+
 	@media screen and (width < 480px) {
 		.container {
 			max-height: calc(100vh - 8rem);
 		}
 	}
-
 </style>
