@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // const apiEndpoint = 'http://127.0.0.1:8000';
 // const apiEndpoint = 'http://ec2-18-190-153-35.us-east-2.compute.amazonaws.com';
-const apiEndpoint = 'https://news-tool-elb-1765322133.us-east-2.elb.amazonaws.com';
+const apiEndpoint = 'https://news-monitor.link';
 
 export const apiClient = () =>
 	axios.create({
