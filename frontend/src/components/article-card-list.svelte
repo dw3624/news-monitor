@@ -5,7 +5,6 @@
 </script>
 
 <section>
-	{#if loading}<div>loading</div>{/if}
 	<div class="header">
 		{#if articles.news === 'jtbc'}
 			<span class="warning">※ JTBC는 기사 제목이 잘리는 경우가 있습니다.</span>
@@ -15,9 +14,15 @@
 		<span><b>{articles ? articles.length : 0}</b>건</span>
 	</div>
 	<div class="content">
-		{#if articles}
-			{#each articles.data as article}
-				<ArticleCard
+		{#if loading}
+			<div class="msg">
+				<iconify-icon icon="lucide:loader-2" class="loading" />
+				로딩 중...
+			</div>
+		{:else}
+			{#if articles.length > 0}
+				{#each articles.data as article}
+					<ArticleCard
 					title={article.title}
 					url={article.url}
 					date={article.date}
@@ -26,10 +31,13 @@
 					bind:typeRef={article.typeRef}
 					bind:keyword1={article.keyword1}
 					bind:keyword2={article.keyword2}
-				/>
-			{/each}
+					/>
+				{/each}
 			{:else}
-			no data
+			<div class="msg">
+				기사가 없습니다.
+			</div>
+			{/if}
 		{/if}
 	</div>
 </section>
@@ -67,5 +75,29 @@
 		overflow: auto;
 		border: 1px solid hsl(var(--border));
 		border-radius: var(--radius);
+	}
+
+	.loading {
+		width: 1rem;
+		height: 1rem;
+		margin-right: 0.5rem;
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		from {
+			transform: rotate(0deg)
+		}
+
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	.msg {
+		display: inline-flex;
+		flex: 1;
+		align-items: center;
+		margin: auto;
 	}
 </style>

@@ -6,27 +6,20 @@
 	import {testArticles} from '../utils/test-data.ts'
 
 	let loading = false
-
+	let articles = testArticles;
+	let textareaValue = ''
+	let selectedNews = '';
 	let selectedDate = new Date().toISOString().slice(0, 10);
+
 	const handleDateChange = (event)=> {
 		selectedDate = event.target.value;
 	}
-
-	let selectedNews = '';
-	let articles = testArticles;
-	const handleNewsChange = async (event) => {
-		selectedNews = event.target.value;
-		const formattedDate = selectedDate.split('-').join('');
-		articles = await getArticleList(selectedNews, formattedDate);
-	}
-
 	const generateKeywordText = (typeRef, keyword1, keyword2) => {
 		const keywordList = [typeRef, keyword1, keyword2].filter(Boolean)
 		const keywordText = keywordList.join(', ')
 		if (keywordText) return `(${keywordText})`
 		return keywordText
 	}
-
 	const generateText=(articles) => {
 		let resText = '';
 		if (articles) {
@@ -43,7 +36,20 @@
 		}
 		return resText;
 	}
-	$: textareaValue = generateText(articles);
+	const handleNewsChange = async (event) => {
+		loading = true
+		try {
+			selectedNews = event.target.value;
+			const formattedDate = selectedDate.split('-').join('');
+			articles = await getArticleList(selectedNews, formattedDate);
+		} catch (error) {
+			articles = []
+		} finally {
+			loading=false
+		}
+	}
+
+	$: textareaValue = articles.length > 0 ?  generateText(articles): "";
 </script>
 
 <DateBroadcastPicker {selectedNews} {handleNewsChange} {selectedDate} {handleDateChange} />
