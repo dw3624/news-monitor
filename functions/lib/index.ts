@@ -23,8 +23,8 @@ export const getKBSArticles = async (
     return articleList.map((article: KBSArticleType) => ({
       category: article.menuName,
       title: article.newsTitle,
-      href: `https://news.kbs.co.kr/news/view.do?ncd=${article.newsCode}`,
-      articleDate: article.serviceTime.split(' ')[0].replace('-', ''),
+      url: `https://news.kbs.co.kr/news/view.do?ncd=${article.newsCode}`,
+      date: article.serviceTime.split(' ')[0].replace('-', ''),
     }))
   } catch (error) {
     console.error('Error fetching KBS articles:', error)
@@ -76,7 +76,7 @@ export const getSBSArticles = async (
     const $ = cheerio.load(html)
     const articleDate = $('#btn-open-datepicker2 > .date')
       .text()
-      .replace('.', '')
+      .replace(/./g, '')
     const articleList = $('ul#article-list > li')
 
     return Array.from(articleList).map((element) => {
@@ -108,8 +108,7 @@ export const getJTBCArticles = async (
     )
       .text()
       .split('(')[0]
-      .replace('.', '')
-      .replace('.', '')
+      .replace(/./g, '')
       .trim()
     const articleList = $(
       '#form1 > div.news_main > div.review_list > div.bd > ul > li',
@@ -173,8 +172,7 @@ export const getTVChosunArticles = async (
     const articleDate = $('#iframe > div.newstop_area > p')
       .text()
       .split('(')[0]
-      .replace('.', '')
-      .replace('.', '')
+      .replace(/./g, '')
       .trim()
     const articleList = $('#iframe > div.bbs_zine.top_line > ul > li')
 
