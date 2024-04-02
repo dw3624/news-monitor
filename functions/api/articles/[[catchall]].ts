@@ -6,7 +6,7 @@ import {
   getSBSArticles,
   getTVChosunArticles,
 } from '../../lib'
-import { ArticleType } from '../../lib/types'
+import type { ArticleType } from '../../lib/types'
 
 export const onRequestGet = async (context) => {
   const broadcast = context.params.catchall[0]
@@ -14,29 +14,35 @@ export const onRequestGet = async (context) => {
 
   let res = <ArticleType[] | null>[]
   switch (broadcast.toLowerCase()) {
-    case 'kbs':
+    case 'kbs': {
       res = await getKBSArticles(date)
       break
+    }
 
-    case 'mbc':
+    case 'mbc': {
       res = await getMBCArticles(date)
       break
+    }
 
-    case 'sbs':
+    case 'sbs': {
       res = await getSBSArticles(date)
       break
+    }
 
-    case 'jtbc':
+    case 'jtbc': {
       res = await getJTBCArticles(date)
       break
+    }
 
-    case 'channel-a':
+    case 'channel-a': {
       res = await getChannelAArticles(date)
       break
+    }
 
-    case 'tv-chosun':
+    case 'tv-chosun': {
       res = await getTVChosunArticles(date)
       break
+    }
   }
   return new Response(JSON.stringify(res))
 }

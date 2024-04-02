@@ -7,7 +7,7 @@ import {
   SBS_URL,
   TV_CHOSUN_URL,
 } from './const'
-import { ArticleType, ChannelAArticleType, KBSArticleType } from './types'
+import type { ArticleType, ChannelAArticleType, KBSArticleType } from './types'
 
 export const getKBSArticles = async (
   date: string,
@@ -19,6 +19,10 @@ export const getKBSArticles = async (
     const resText = await response.text()
     const resJson = JSON.parse(resText.replace(/\n/g, ''))
     const articleList = resJson.data
+
+    if (articleList.length === 0) {
+      return []
+    }
 
     return articleList.map((article: KBSArticleType) => ({
       category: article.menuName,
@@ -44,7 +48,7 @@ export const getMBCArticles = async (date: string) => {
 
     if (!dateId) {
       console.error('Calendar data not found for the given date:', date)
-      return null
+      return []
     }
 
     const url = `${MBC_URL}/${year}/nwdesk/${dateId}_36510.html`
@@ -76,7 +80,12 @@ export const getSBSArticles = async (
     const $ = cheerio.load(html)
     const articleDate = $('#btn-open-datepicker2 > .date')
       .text()
-      .replace(/./g, '')
+      .replace(/\./g, '')
+
+    if (date !== articleDate) {
+      return []
+    }
+
     const articleList = $('ul#article-list > li')
 
     return Array.from(articleList).map((element) => {
@@ -108,8 +117,13 @@ export const getJTBCArticles = async (
     )
       .text()
       .split('(')[0]
-      .replace(/./g, '')
+      .replace(/\./g, '')
       .trim()
+
+    if (date !== articleDate) {
+      return []
+    }
+
     const articleList = $(
       '#form1 > div.news_main > div.review_list > div.bd > ul > li',
     )
@@ -139,7 +153,13 @@ export const getChannelAArticles = async (
       const resJson = JSON.parse(resText.replace(/\n/g, ''))
       articleList.push(...resJson.programNewsList)
 
-      if (resJson.programNewsList.length === 0) break
+      if (resJson.programNewsList.length === 0) {
+        break
+      }
+    }
+
+    if (date !== articleList[0].SVC_START_DATE) {
+      return []
     }
 
     return articleList.map((article) => ({
@@ -172,8 +192,13 @@ export const getTVChosunArticles = async (
     const articleDate = $('#iframe > div.newstop_area > p')
       .text()
       .split('(')[0]
-      .replace(/./g, '')
+      .replace(/\./g, '')
       .trim()
+
+    if (date !== articleDate) {
+      return []
+    }
+
     const articleList = $('#iframe > div.bbs_zine.top_line > ul > li')
 
     return Array.from(articleList).map((element) => {
