@@ -5,61 +5,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { BROADCAST_LIST } from '@/const'
 import { cn, formatDate } from '@/lib/utils'
-import { broadcastAtom, dateAtom } from '@/store'
-import { useAtom } from 'jotai'
 import { Calendar as CalendarIcon } from 'lucide-react'
 
-export const BROADCAST_LIST = [
-  {
-    label: 'KBS',
-    value: 'kbs',
-  },
-  {
-    label: 'MBC',
-    value: 'mbc',
-  },
-  {
-    label: 'SBS',
-    value: 'sbs',
-  },
-  {
-    label: 'JTBC',
-    value: 'jtbc',
-  },
-  {
-    label: '채널A',
-    value: 'channel-a',
-  },
-  {
-    label: 'TV조선',
-    value: 'tv-chosun',
-  },
-]
-
-// const fetcher = async (url) => {
-//   const response = await axios.get(url)
-//   return response.data
-// }
-
-const MenuBar = () => {
-  const [date, setDate] = useAtom(dateAtom)
-  const [broadcast, setBroadcast] = useAtom(broadcastAtom)
-  // const setArticles = useSetAtom(articlesAtom)
-
-  // const shouldFetch = broadcast !== 'default'
-  // const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, '')
-  // const url = `/api/articles/${broadcast}/${formattedDate}`
-  // const { data: fetchedArticles, error } = useSwr(
-  //   shouldFetch ? url : null,
-  //   fetcher,
-  // )
-
-  // if (error) console.error(error)
-
-  // if (shouldFetch) {
-  //   setArticles(fetchedArticles)
-  // }
+const MenuBar = ({ date, setDate, broadcast, setBroadcast }) => {
+  // const [date, setDate] = useAtom(dateAtom)
+  // const [broadcast, setBroadcast] = useAtom(broadcastAtom)
 
   return (
     <div className="flex justify-between">
@@ -98,7 +50,11 @@ const MenuBar = () => {
               mode="single"
               selected={date}
               onSelect={setDate}
+              disabled={(date) =>
+                date > new Date() || date < new Date('1900-01-01')
+              }
               initialFocus={true}
+              required={true}
             />
           </PopoverContent>
         </Popover>

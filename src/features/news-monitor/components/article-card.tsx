@@ -1,68 +1,28 @@
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { BUTTON_LIST } from '@/const'
 import { cn } from '@/lib/utils'
-import { articlesAtom } from '@/store'
-import { useAtom } from 'jotai'
 
-const buttonList = [
-  {
-    label: 'R',
-    value: 'r',
-  },
-  {
-    label: 'MNG',
-    value: 'm',
-  },
-  {
-    label: 'S',
-    value: 's',
-  },
-  {
-    label: '출연',
-    value: 'c',
-  },
-  {
-    label: '빈칸',
-    value: 'b',
-  },
-]
-
-type ArticleCardProp = {
-  category?: string
-  title: string
-  url: string
-  date?: string
-  include: boolean
-  type: string
-  keyword1: string
-  keyword2: string
-}
-
-const ArticleCard = ({
-  index,
-}: {
-  index: number
-}) => {
-  const [articles, setArticles] = useAtom(articlesAtom)
-  const article = articles[index]
-  const updateArticle = (updatedField: Partial<ArticleCardProp>) => {
-    const newArticles = [...articles]
-    newArticles[index] = { ...articles[index], ...updatedField }
-    setArticles(newArticles)
+const ArticleCard = ({ index, article, onUpdate }) => {
+  const updateArticle = (updatedField) => {
+    onUpdate(index, updatedField)
   }
 
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
-      onClick={() => updateArticle({ include: true })}
       className={cn(
         'flex flex-col items-start gap-2 rounded-lg border p-3',
-        'text-left text-sm transition-all hover:bg-accent cursor-pointer',
+        'text-left text-sm transition-all cursor-pointer',
+        article.include
+          ? 'bg-accent hover:bg-accent/80'
+          : 'bg-transparent hover:bg-accent',
       )}
     >
-      <div className="flex-1 flex flex-col gap-4">
-        <div>
+      <div className="w-full flex-1 flex flex-col gap-4">
+        <div className="w-full flex justify-between gap-2">
           <a
             href={article.url}
             target="_blank"
@@ -71,10 +31,14 @@ const ArticleCard = ({
           >
             {article.title}
           </a>
+          <Checkbox
+            onClick={() => updateArticle({ include: !article.include })}
+            className="rounded-full w-6 h-6"
+          />
         </div>
 
-        <RadioGroup defaultValue="r" className="flex flex-wrap gap-2">
-          {buttonList.map((button, i) => (
+        <RadioGroup className="flex flex-wrap gap-2">
+          {BUTTON_LIST.map((button, i) => (
             <label key={i} htmlFor={button.value}>
               <RadioGroupItem
                 value={button.value}
@@ -86,10 +50,10 @@ const ArticleCard = ({
                 size={'sm'}
                 className={cn(
                   'text-xs h-7',
-                  article.type === button.value &&
+                  article.type === button.label &&
                     'bg-primary text-primary-foreground hover:bg-primary/90',
                 )}
-                onClick={() => updateArticle({ type: button.value })}
+                onClick={() => updateArticle({ type: button.label })}
               >
                 {button.label}
               </Button>
@@ -103,7 +67,7 @@ const ArticleCard = ({
           placeholder="키워드 1"
           autoComplete="on"
           className="h-8 px-0"
-          value={article.keyword1}
+          value={article.keyword1 || ''}
           onChange={(e) => updateArticle({ keyword1: e.target.value })}
         />
         <Input
@@ -111,7 +75,7 @@ const ArticleCard = ({
           placeholder="키워드 2"
           autoComplete="on"
           className="h-8 px-0"
-          value={article.keyword2}
+          value={article.keyword2 || ''}
           onChange={(e) => updateArticle({ keyword2: e.target.value })}
         />
       </div>

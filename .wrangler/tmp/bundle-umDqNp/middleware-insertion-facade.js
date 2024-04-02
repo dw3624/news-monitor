@@ -1,4 +1,4 @@
-				import worker, * as OTHER_EXPORTS from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\pages-yJcXeJ\\functionsWorker-0.20701235390121298.mjs";
+				import worker, * as OTHER_EXPORTS from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\pages-YMwhG7\\functionsWorker-0.14755526186667156.mjs";
 				import * as __MIDDLEWARE_0__ from "C:\\works\\github\\news-monitor-react\\node_modules\\wrangler\\templates\\middleware\\middleware-ensure-req-body-drained.ts";
 import * as __MIDDLEWARE_1__ from "C:\\works\\github\\news-monitor-react\\node_modules\\wrangler\\templates\\middleware\\middleware-miniflare3-json-error.ts";
 				const envWrappers = [__MIDDLEWARE_0__.wrap,__MIDDLEWARE_1__.wrap].filter(Boolean);
@@ -10,7 +10,7 @@ import * as __MIDDLEWARE_1__ from "C:\\works\\github\\news-monitor-react\\node_m
             ...(worker.middleware ? worker.middleware : []),
 					].filter(Boolean)
 				}
-				export * from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\pages-yJcXeJ\\functionsWorker-0.20701235390121298.mjs";
+				export * from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\pages-YMwhG7\\functionsWorker-0.14755526186667156.mjs";
 
 				const maskDurableObjectDefinition = (cls) =>
 					class extends cls {
