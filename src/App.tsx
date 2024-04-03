@@ -1,13 +1,7 @@
 import ArticleCardList from '@/components/article-card-list'
 import ArticleTextarea from '@/components/article-textarea'
 import MenuBar from '@/components/menu-bar'
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from '@/components/ui/resizable'
 import { useArticles } from '@/hooks'
-
 import { articlesAtom, selectedBroadcastAtom, selectedDateAtom } from '@/store'
 import type { ArticleType } from '@/types'
 import { useAtomValue, useSetAtom } from 'jotai'
@@ -48,20 +42,13 @@ const App = () => {
     <main className="container h-[calc(100dvh-48px)] pb-4">
       <section className="flex flex-col h-full gap-2">
         <MenuBar />
-        <div className="flex-1 border">
-          <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel>
-              <ArticleCardList
-                isLoading={isLoading}
-                error={error}
-                mutate={mutate}
-              />
-            </ResizablePanel>
-            <ResizableHandle withHandle={true} />
-            <ResizablePanel>
-              <ArticleTextarea />
-            </ResizablePanel>
-          </ResizablePanelGroup>
+        <div className="max-h-[calc(100dvh-8rem)] grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 flex-1">
+          <ArticleCardList
+            isLoading={isLoading}
+            error={error}
+            mutate={mutate}
+          />
+          <ArticleTextarea />
         </div>
       </section>
     </main>

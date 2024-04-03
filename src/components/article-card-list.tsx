@@ -7,7 +7,7 @@ import type { KeyedMutator } from 'swr'
 
 const LoadingMessage = () => {
   return (
-    <div className="px-2 h-full flex items-center justify-center">
+    <div className="mt-6 px-2 h-full flex items-center justify-center">
       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       로딩 중...
     </div>
@@ -17,7 +17,7 @@ const LoadingMessage = () => {
 const ErrorMessage = ({ error }: { error: Error }) => {
   console.error(error.message)
   return (
-    <div className="px-2 h-full flex items-center justify-center text-center">
+    <div className="mt-6 px-2 h-full flex items-center justify-center text-center">
       에러가 발생했습니다.
     </div>
   )
@@ -35,7 +35,7 @@ const ArticleCardList = ({
   }
 
   return (
-    <div className="h-full w-full p-2 space-y-2">
+    <section className="h-full w-full p-2 space-y-2 border border-input">
       <div className="flex items-center justify-between">
         <div className="text-sm ml-2">
           <b>{isLoading ? 0 : articles.length}</b> 건
@@ -45,7 +45,7 @@ const ArticleCardList = ({
           <RefreshCcw className="ml-2 h-3 w-3" />
         </Button>
       </div>
-      <div className="max-h-[84dvh] overflow-y-auto pr-2 h-full flex flex-col gap-2">
+      <div className="flex flex-col max-h-[calc(100%-4rem)] overflow-y-auto pr-2 gap-2">
         {isLoading ? (
           <LoadingMessage />
         ) : error ? (
@@ -53,12 +53,12 @@ const ArticleCardList = ({
         ) : articles.length > 0 ? (
           articles.map((_, i) => <ArticleCard key={i} index={i} />)
         ) : (
-          <div className="px-2 h-full flex items-center justify-center">
+          <div className="mt-6 px-2 flex items-center justify-center">
             기사가 없습니다.
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }
 

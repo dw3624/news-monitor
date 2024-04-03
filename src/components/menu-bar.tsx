@@ -24,7 +24,7 @@ const MenuBar = () => {
   }
 
   return (
-    <div className="flex justify-between">
+    <div className="flex flex-wrap justify-between gap-2">
       <div className="flex gap-1">
         {BROADCAST_LIST.map((broadcastItem, i) => (
           <Button

@@ -42,7 +42,7 @@ const ArticleTextarea = () => {
     try {
       await navigator.clipboard.writeText(textareaValue)
       setIsCopy(true)
-      setTimeout(() => setIsCopy(false), 2000)
+      setTimeout(() => setIsCopy(false), 1000)
     } catch (error) {
       console.error('Copy Failed:', error)
     }
@@ -54,10 +54,10 @@ const ArticleTextarea = () => {
   }, [articles, setTextareaValue])
 
   return (
-    <div className="h-full w-full p-2 space-y-2">
+    <section className="h-full w-full p-2 space-y-2 border border-input">
       <div className="flex justify-between items-center">
         <div className={cn('text-sm ml-2', isCopy ? 'visible' : 'invisible')}>
-          복사가 성공했습니다..!
+          복사가 성공했습니다.
         </div>
         <Button variant={'ghost'} size={'sm'} onClick={handleCopy}>
           복사
@@ -66,7 +66,7 @@ const ArticleTextarea = () => {
       </div>
       <textarea
         className="
-          flex h-[84dvh] w-full rounded-md border border-input font-sans
+          flex h-[calc(100%-4rem)] w-full rounded-md border border-input font-sans
           bg-transparent text-base shadow-sm placeholder:text-muted-foreground
           focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
           disabled:cursor-not-allowed disabled:opacity-50 resize-none p-4"
@@ -74,7 +74,7 @@ const ArticleTextarea = () => {
         onChange={(e) => setTextareaValue(e.target.value)}
         spellCheck={false}
       />
-    </div>
+    </section>
   )
 }
 
