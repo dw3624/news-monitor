@@ -73,7 +73,7 @@ function checkURL2(request, init) {
 }
 var urls2;
 var init_checked_fetch = __esm({
-  "../.wrangler/tmp/bundle-qCGhhh/checked-fetch.js"() {
+  "../.wrangler/tmp/bundle-nmdxUs/checked-fetch.js"() {
     "use strict";
     urls2 = /* @__PURE__ */ new Set();
     globalThis.fetch = new Proxy(globalThis.fetch, {
@@ -14691,159 +14691,129 @@ var init_lib = __esm({
     init_esm10();
     init_const();
     getKBSArticles = async (date) => {
-      try {
-        const url = `${KBS_URL}&broadDate=${date}`;
-        const response = await fetch(url);
-        const resText = await response.text();
-        const resJson = JSON.parse(resText.replace(/\n/g, ""));
-        const articleList = resJson.data;
-        if (articleList.length === 0) {
-          return [];
-        }
-        return articleList.map((article) => ({
-          category: article.menuName,
-          title: article.newsTitle,
-          url: `https://news.kbs.co.kr/news/view.do?ncd=${article.newsCode}`,
-          date: article.serviceTime.split(" ")[0].replace("-", "")
-        }));
-      } catch (error) {
-        console.error("Error fetching KBS articles:", error);
-        return null;
+      const url = `${KBS_URL}&broadDate=${date}`;
+      const response = await fetch(url);
+      const resText = await response.text();
+      const resJson = JSON.parse(resText.replace(/\n/g, ""));
+      const articleList = resJson.data;
+      if (articleList.length === 0) {
+        return [];
       }
+      return articleList.map((article) => ({
+        category: article.menuName,
+        title: article.newsTitle,
+        url: `https://news.kbs.co.kr/news/view.do?ncd=${article.newsCode}`,
+        date: article.serviceTime.split(" ")[0].replace("-", "")
+      }));
     };
     getMBCArticles = async (date) => {
-      try {
-        const year = date.slice(0, 4);
-        const calendar = `${MBC_URL}/${year}/nwdesk/cal_data.js`;
-        const calResponse = await fetch(calendar);
-        const calText = await calResponse.text();
-        const calJson = JSON.parse(calText.trim());
-        const dateId = calJson.DateList.find((item) => item.Day === date)?.CurrentID;
-        if (!dateId) {
-          console.error("Calendar data not found for the given date:", date);
-          return [];
-        }
-        const url = `${MBC_URL}/${year}/nwdesk/${dateId}_36510.html`;
-        const response = await fetch(url);
-        const html3 = await response.text();
-        const $2 = load(html3);
-        const articleList = $2("div.list_area > ul.thumb_type > li");
-        return Array.from(articleList).map((element) => ({
-          title: $2(element).find(".txt_w > .tit").text(),
-          url: $2(element).find("a").attr("href"),
-          date
-        }));
-      } catch (error) {
-        console.error("Error fetching MBC articles:", error);
-        return null;
+      const year = date.slice(0, 4);
+      const calendar = `${MBC_URL}/${year}/nwdesk/cal_data.js`;
+      const calResponse = await fetch(calendar);
+      const calText = await calResponse.text();
+      const calJson = JSON.parse(calText.trim());
+      const dateId = calJson.DateList.find((item) => item.Day === date)?.CurrentID;
+      if (!dateId) {
+        console.error("Calendar data not found for the given date:", date);
+        return [];
       }
+      const url = `${MBC_URL}/${year}/nwdesk/${dateId}_36510.html`;
+      const response = await fetch(url);
+      const html3 = await response.text();
+      const $2 = load(html3);
+      const articleList = $2("div.list_area > ul.thumb_type > li");
+      return Array.from(articleList).map((element) => ({
+        title: $2(element).find(".txt_w > .tit").text(),
+        url: $2(element).find("a").attr("href"),
+        date
+      }));
     };
     getSBSArticles = async (date) => {
-      try {
-        const url = `${SBS_URL}&broad_date=${date}&plink=CAL&cooper=SBSNEWS`;
-        const response = await fetch(url);
-        const html3 = await response.text();
-        const $2 = load(html3);
-        const articleDate = $2("#btn-open-datepicker2 > .date").text().replace(/\./g, "");
-        if (date !== articleDate) {
-          return [];
-        }
-        const articleList = $2("ul#article-list > li");
-        return Array.from(articleList).map((element) => {
-          const category = $2(element).find("em.cate").text();
-          return {
-            category,
-            title: $2(element).find("strong").text().replace(category, "").trim(),
-            url: `https://news.sbs.co.kr${$2(element).find("a").attr("href")}`,
-            date: articleDate
-          };
-        });
-      } catch (error) {
-        console.error("Error fetching KBS articles:", error);
-        return null;
+      const url = `${SBS_URL}&broad_date=${date}&plink=CAL&cooper=SBSNEWS`;
+      const response = await fetch(url);
+      const html3 = await response.text();
+      const $2 = load(html3);
+      const articleDate = $2("#btn-open-datepicker2 > .date").text().replace(/\./g, "");
+      if (date !== articleDate) {
+        return [];
       }
+      const articleList = $2("ul#article-list > li");
+      return Array.from(articleList).map((element) => {
+        const category = $2(element).find("em.cate").text();
+        return {
+          category,
+          title: $2(element).find("strong").text().replace(category, "").trim(),
+          url: `https://news.sbs.co.kr${$2(element).find("a").attr("href")}`,
+          date: articleDate
+        };
+      });
     };
     getJTBCArticles = async (date) => {
-      try {
-        const url = `${JTBC_URL}&strSearchDate=${date}`;
-        const response = await fetch(url);
-        const html3 = await response.text();
-        const $2 = load(html3);
-        const articleDate = $2(
-          "#form1 > div.news_main > div.review_list > div.hd > h4"
-        ).text().split("(")[0].replace(/\./g, "").trim();
-        if (date !== articleDate) {
-          return [];
-        }
-        const articleList = $2(
-          "#form1 > div.news_main > div.review_list > div.bd > ul > li"
-        );
-        return Array.from(articleList).map((element) => ({
-          title: $2(element).find("div.rt > dl > dt >a").text(),
-          url: $2(element).find("div.rt > dl > dt >a").attr("href"),
-          date: articleDate
-        }));
-      } catch (error) {
-        console.error("Error fetching KBS articles:", error);
-        return null;
+      const url = `${JTBC_URL}&strSearchDate=${date}`;
+      const response = await fetch(url);
+      const html3 = await response.text();
+      const $2 = load(html3);
+      const articleDate = $2(
+        "#form1 > div.news_main > div.review_list > div.hd > h4"
+      ).text().split("(")[0].replace(/\./g, "").trim();
+      if (date !== articleDate) {
+        return [];
       }
+      const articleList = $2(
+        "#form1 > div.news_main > div.review_list > div.bd > ul > li"
+      );
+      return Array.from(articleList).map((element) => ({
+        title: $2(element).find("div.rt > dl > dt >a").text(),
+        url: $2(element).find("div.rt > dl > dt >a").attr("href"),
+        date: articleDate
+      }));
     };
     getChannelAArticles = async (date) => {
-      try {
-        const url = `${CHANNEL_A_URL}&selectedDate=${date}`;
-        const articleList = [];
-        for (let i = 0; i < 5; i++) {
-          const response = await fetch(`${url}&pageNum=${i + 1}`);
-          const resText = await response.text();
-          const resJson = JSON.parse(resText.replace(/\n/g, ""));
-          articleList.push(...resJson.programNewsList);
-          if (resJson.programNewsList.length === 0) {
-            break;
-          }
+      const url = `${CHANNEL_A_URL}&selectedDate=${date}`;
+      const articleList = [];
+      for (let i = 0; i < 5; i++) {
+        const response = await fetch(`${url}&pageNum=${i + 1}`);
+        const resText = await response.text();
+        const resJson = JSON.parse(resText.replace(/\n/g, ""));
+        articleList.push(...resJson.programNewsList);
+        if (resJson.programNewsList.length === 0) {
+          break;
         }
-        if (date !== articleList[0].SVC_START_DATE) {
-          return [];
-        }
-        return articleList.map((article) => ({
-          title: article.TITLE,
-          url: `https://www.ichannela.com/news/main/news_detailPage.do?publishId=${article.PUBLISH_ID}`,
-          date: article.SVC_START_DATE
-        }));
-      } catch (error) {
-        console.error("Error fetching KBS articles:", error);
-        return null;
       }
+      if (date !== articleList[0].SVC_START_DATE) {
+        return [];
+      }
+      return articleList.map((article) => ({
+        title: article.TITLE,
+        url: `https://www.ichannela.com/news/main/news_detailPage.do?publishId=${article.PUBLISH_ID}`,
+        date: article.SVC_START_DATE
+      }));
     };
     getTVChosunArticles = async (date) => {
-      try {
-        const dateStrp = /* @__PURE__ */ new Date(
-          `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`
-        );
-        const weekday = dateStrp.getDay();
-        const isHoliday = weekday === 0 || weekday === 6;
-        const url = `${TV_CHOSUN_URL}?catid=${isHoliday ? "75" : "2P"}&source=&indate=${date}`;
-        const response = await fetch(url);
-        const html3 = await response.text();
-        const $2 = load(html3);
-        const articleDate = $2("#iframe > div.newstop_area > p").text().split("(")[0].replace(/\./g, "").trim();
-        if (date !== articleDate) {
-          return [];
-        }
-        const articleList = $2("#iframe > div.bbs_zine.top_line > ul > li");
-        return Array.from(articleList).map((element) => {
-          const href = $2(element).find("div.detail > p.article_tit > a").attr("onclick");
-          const match2 = href?.match(/go_url\('([^']+)'\)/);
-          return {
-            category: $2(element).find("div.detail > p.tag > span").first().text(),
-            title: $2(element).find("div.detail > p.article_tit > a").text(),
-            url: match2 ? match2[1] : "",
-            date: articleDate
-          };
-        });
-      } catch (error) {
-        console.error("Error fetching KBS articles:", error);
-        return null;
+      const dateStrp = /* @__PURE__ */ new Date(
+        `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`
+      );
+      const weekday = dateStrp.getDay();
+      const isHoliday = weekday === 0 || weekday === 6;
+      const url = `${TV_CHOSUN_URL}?catid=${isHoliday ? "75" : "2P"}&source=&indate=${date}`;
+      const response = await fetch(url);
+      const html3 = await response.text();
+      const $2 = load(html3);
+      const articleDate = $2("#iframe > div.newstop_area > p").text().split("(")[0].replace(/\./g, "").trim();
+      if (date !== articleDate) {
+        return [];
       }
+      const articleList = $2("#iframe > div.bbs_zine.top_line > ul > li");
+      return Array.from(articleList).map((element) => {
+        const href = $2(element).find("div.detail > p.article_tit > a").attr("onclick");
+        const match2 = href?.match(/go_url\('([^']+)'\)/);
+        return {
+          category: $2(element).find("div.detail > p.tag > span").first().text(),
+          title: $2(element).find("div.detail > p.article_tit > a").text(),
+          url: match2 ? match2[1] : "",
+          date: articleDate
+        };
+      });
     };
   }
 });
@@ -14859,33 +14829,37 @@ var init_catchall = __esm({
       const broadcast = context.params.catchall[0];
       const date = context.params.catchall[1];
       let res = [];
-      switch (broadcast.toLowerCase()) {
-        case "kbs": {
-          res = await getKBSArticles(date);
-          break;
+      try {
+        switch (broadcast.toLowerCase()) {
+          case "kbs": {
+            res = await getKBSArticles(date);
+            break;
+          }
+          case "mbc": {
+            res = await getMBCArticles(date);
+            break;
+          }
+          case "sbs": {
+            res = await getSBSArticles(date);
+            break;
+          }
+          case "jtbc": {
+            res = await getJTBCArticles(date);
+            break;
+          }
+          case "channel-a": {
+            res = await getChannelAArticles(date);
+            break;
+          }
+          case "tv-chosun": {
+            res = await getTVChosunArticles(date);
+            break;
+          }
         }
-        case "mbc": {
-          res = await getMBCArticles(date);
-          break;
-        }
-        case "sbs": {
-          res = await getSBSArticles(date);
-          break;
-        }
-        case "jtbc": {
-          res = await getJTBCArticles(date);
-          break;
-        }
-        case "channel-a": {
-          res = await getChannelAArticles(date);
-          break;
-        }
-        case "tv-chosun": {
-          res = await getTVChosunArticles(date);
-          break;
-        }
+        return new Response(JSON.stringify(res));
+      } catch (error) {
+        throw new error();
       }
-      return new Response(JSON.stringify(res));
     };
   }
 });

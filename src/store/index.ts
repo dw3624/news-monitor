@@ -1,10 +1,10 @@
-import type { ArticleType } from '@/App'
-import { ARTICLE_LIST } from '@/test'
+import { ARTICLE_LIST } from '@/store/test'
+import type { ArticleType } from '@/types'
 import { atom, useAtom } from 'jotai'
 
-export const dateAtom = atom(new Date())
+export const selectedDateAtom = atom(new Date())
 
-export const broadcastAtom = atom('default')
+export const selectedBroadcastAtom = atom('default')
 
 export const articlesAtom = atom(ARTICLE_LIST)
 
@@ -23,3 +23,5 @@ export const filteredArticlesAtom = atom((get) => {
   const articles = get(articlesAtom)
   return articles.filter((article) => article.type !== 'r')
 })
+
+export const textareaValueAtom = atom('')

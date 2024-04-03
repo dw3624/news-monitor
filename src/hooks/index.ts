@@ -1,17 +1,30 @@
-import { ARTICLE_LIST } from '@/test'
 import axios from 'axios'
-import useSWR from 'swr'
+import useSwr from 'swr'
 
-const fetcher = (url: string) => axios.get(url).then((res) => res)
+const convertTime = (date: Date) => {
+  const offset = date.getTimezoneOffset() * 60000
+  return new Date(date.getTime() - offset)
+    .toISOString()
+    .slice(0, 10)
+    .replace(/-/g, '')
+}
 
-export const useArticles = (broadcast: string, date: string) => {
-  const { data, error, isLoading } = useSWR(
-    broadcast !== 'default' ? `/api/articles/${broadcast}/${date}` : null,
-    fetcher,
-    {
-      fallback: { '/api/articles/default': ARTICLE_LIST },
-    },
-  )
+const fetcher = async (url: string) => {
+  const response = await axios.get(url)
+  return response.data
+}
 
-  return { data, error, isLoading }
+export const useArticles = (broadcast: string, date: Date) => {
+  const formattedDate = convertTime(date)
+  const url = `/api/articles/${broadcast}/${formattedDate}`
+  const {
+    data: fetchedArticles,
+    error,
+    isLoading,
+    mutate,
+  } = useSwr(broadcast !== 'default' ? url : null, fetcher, {
+    shouldRetryOnError: false,
+  })
+
+  return { fetchedArticles, error, isLoading, mutate }
 }

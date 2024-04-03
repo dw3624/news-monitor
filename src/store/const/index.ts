@@ -1,23 +1,23 @@
 export const BUTTON_LIST = [
   {
     label: 'R',
-    value: 'r',
+    value: '[R]',
   },
   {
     label: 'MNG',
-    value: 'm',
+    value: '[MNG]',
   },
   {
     label: 'S',
-    value: 's',
+    value: '[S]',
   },
   {
     label: '출연',
-    value: 'c',
+    value: '[출연]',
   },
   {
     label: '빈칸',
-    value: 'b',
+    value: '[]',
   },
 ]
 

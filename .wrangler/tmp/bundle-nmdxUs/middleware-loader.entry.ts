@@ -4,7 +4,7 @@
 // // through wrangler, or we can potentially let users directly add them as a sort
 // // of "plugin" system.
 
-import worker from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\bundle-qCGhhh\\middleware-insertion-facade.js";
+import worker from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\bundle-nmdxUs\\middleware-insertion-facade.js";
 import {
 	__facade_invoke__,
 	__facade_register__,
@@ -13,7 +13,7 @@ import {
 } from "C:\\works\\github\\news-monitor-react\\node_modules\\wrangler\\templates\\middleware\\common.ts";
 
 // We need to preserve all of the exports from the worker
-export * from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\bundle-qCGhhh\\middleware-insertion-facade.js";
+export * from "C:\\works\\github\\news-monitor-react\\.wrangler\\tmp\\bundle-nmdxUs\\middleware-insertion-facade.js";
 
 class __Facade_ScheduledController__ implements ScheduledController {
 	#noRetry: ScheduledController["noRetry"];

@@ -13,36 +13,40 @@ export const onRequestGet = async (context) => {
   const date = context.params.catchall[1]
 
   let res = <ArticleType[] | null>[]
-  switch (broadcast.toLowerCase()) {
-    case 'kbs': {
-      res = await getKBSArticles(date)
-      break
-    }
+  try {
+    switch (broadcast.toLowerCase()) {
+      case 'kbs': {
+        res = await getKBSArticles(date)
+        break
+      }
 
-    case 'mbc': {
-      res = await getMBCArticles(date)
-      break
-    }
+      case 'mbc': {
+        res = await getMBCArticles(date)
+        break
+      }
 
-    case 'sbs': {
-      res = await getSBSArticles(date)
-      break
-    }
+      case 'sbs': {
+        res = await getSBSArticles(date)
+        break
+      }
 
-    case 'jtbc': {
-      res = await getJTBCArticles(date)
-      break
-    }
+      case 'jtbc': {
+        res = await getJTBCArticles(date)
+        break
+      }
 
-    case 'channel-a': {
-      res = await getChannelAArticles(date)
-      break
-    }
+      case 'channel-a': {
+        res = await getChannelAArticles(date)
+        break
+      }
 
-    case 'tv-chosun': {
-      res = await getTVChosunArticles(date)
-      break
+      case 'tv-chosun': {
+        res = await getTVChosunArticles(date)
+        break
+      }
     }
+    return new Response(JSON.stringify(res))
+  } catch (error) {
+    throw new error()
   }
-  return new Response(JSON.stringify(res))
 }

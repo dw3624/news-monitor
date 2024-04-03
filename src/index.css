@@ -52,11 +52,20 @@
 
 
 @layer base {
+  @font-face {
+    font-family: "Pretendard";
+    src: url("./font/PretendardVariable.woff2") format('woff2');
+  }
+
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  body {
+    font-family: 'Pretendard';
   }
 
   ::-webkit-scrollbar {
